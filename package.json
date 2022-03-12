@@ -1,0 +1,27 @@
+{
+  "name": "lolibrary-scraper",
+  "version": "1.0.0",
+  "description": "scrapes lolibrary.org for filter information",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mariecreel/lolibrary-scraper.git"
+  },
+  "keywords": [
+    "nodejs",
+    "node",
+    "puppeteer"
+  ],
+  "author": "marie creel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mariecreel/lolibrary-scraper/issues"
+  },
+  "homepage": "https://github.com/mariecreel/lolibrary-scraper#readme",
+  "dependencies": {
+    "puppeteer": "^13.5.1"
+  }
+}
