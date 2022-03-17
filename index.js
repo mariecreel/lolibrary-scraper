@@ -1,13 +1,16 @@
-const puppeteer = require('puppeteer');
-const url = 'https://lolibrary.org/search';
-const filters = {};
-const filterNameSelector = 'label.control-label';
-const filterComboboxSelector = '.v-select > vs__dropdown-toggle';
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 (async () => {
-    const browser = await puppeteer.launch({headless: false});
-    const page = await browser.newPage();
+    const url = 'https://lolibrary.org/search';
+    const filters = {};
+    const filterNameSelector = 'label.control-label';
+    const filterComboboxSelector = '.v-select > vs__dropdown-toggle';
     let i;
+    // avoid headless crawler detection
+    puppeteer.use(StealthPlugin());
+    const browser = await puppeteer.launch({headless: true});
+    const page = await browser.newPage();
     await page.goto(url);
     // get the filter names
     const filterHandle = await page
