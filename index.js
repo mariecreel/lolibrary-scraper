@@ -4,8 +4,9 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
 (async () => {
   const url = "https://lolibrary.org/search";
   const filters = {};
-  const filterNameSelector = "label.control-label";
-  const filterComboboxSelector = ".v-select > .vs__dropdown-toggle";
+  const filterNameSelector = ".input-group > label.control-label";
+  const filterComboboxSelector =
+    ".v-select > .vs__dropdown-toggle[role='combobox']";
   let i;
   // avoid headless crawler detection
   puppeteer.use(StealthPlugin());
