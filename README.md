@@ -1,13 +1,11 @@
 # lolibrary-scraper
-web scraper built to scrape search filter information from lolibrary.org. 
-using node.js and puppeteer.
+Web scraper that fetches filter data used for Lolibrary's search API.
 
-# how to run
-- clone repo
-- `npm install` in repo 
-- `node index.js`
+Sister projects:
+- [`lolibrary-mobile`: React Native port of Lolibrary search.](https://github.com/mariecreel/lolibrary-mobile)
+- [`lolibrary-api-proxy`: API that serves filter data to `lolibrary-mobile` app.](https://github.com/mariecreel/lolibrary-api-proxy)
 
-TODO:
-- [ ] send values to lolibrary-api-proxy connected database - this allows us to fetch the data without using the private lolibrary API.
-- [ ] set up heroku
-- [ ] schedule runs (like cronjob?)
+# Run the code!
+- Clone repo to your local machine. Make sure you have `yarn` and `node` installed.
+- `yarn install` in repo directory
+- `node index.js`, or `yarn start`
