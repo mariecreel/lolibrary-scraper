@@ -23,7 +23,10 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
   for (i = 0; i < filtersHandle.length; i++) {
     const header = await filtersHandle[i].evaluate((node) => node.innerText);
     const listboxId = await filtersHandle[i].evaluate((node) => {
+      // the next sibling should be the div that contains 
+      // both the listbox and the combobox
       const sibling = node.nextElementSibling;
+      // the listbox appears after the combobox (should not be nested within)
       const id = sibling.children[1].id;
       return id;
     });
@@ -44,11 +47,15 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
     await page.click(`input[aria-controls='${ariaOwns}']`);
     let filterName = "";
     for (const key of Object.keys(filters)) {
+      // compare the ariaOwns attribute with the listbox ID we collected earlier
+      // and get the correct filter key so we can push the values
+      // to the right array...
       if (filters[key].listboxId === ariaOwns) {
         filterName = key;
         break;
       }
     }
+    // now that the listbox is visible, we can scrape the values!
     const filterListboxHandle = await page
       .waitForSelector(`#${ariaOwns}`, { visible: true })
       .then(() => {
