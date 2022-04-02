@@ -39,8 +39,8 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
       (node) => node.attributes["aria-owns"].nodeValue
     );
     // focus on the input
-    const input = await page.$(`input[aria-controls='${ariaOwns}']`);
-    await input.click();
+    await page.waitForSelector(`input[aria-controls='${ariaOwns}']`);
+    await page.click(`input[aria-controls='${ariaOwns}']`);
     let filterName = "";
     for (const key of Object.keys(filters)) {
       if (filters[key].listboxId === ariaOwns) {
@@ -49,7 +49,7 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
       }
     }
     const filterListboxHandle = await page
-      .waitForSelector(`#${ariaOwns}`, {visible: true})
+      .waitForSelector(`#${ariaOwns}`, { visible: true })
       .then(() => {
         return page.$(`#${ariaOwns}`);
       });
@@ -61,5 +61,10 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
       return values;
     });
     filters[filterName].values = filterValues;
+    // click another element to clear browser focus.
+    // if we don't do this, the focus will be stuck in the first input,
+    // so the second listbox will never show when we click it.
+    await page.click(".card-header");
   }
+  // TODO: send filters to postgreSQL database...need an endpoint for this?
 })();
