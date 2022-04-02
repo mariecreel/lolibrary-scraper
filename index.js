@@ -74,5 +74,6 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
     // so the second listbox will never show when we click it.
     await page.click(".card-header");
   }
+  await browser.close();
   // TODO: send filters to postgreSQL database...need an endpoint for this?
 })();
