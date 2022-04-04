@@ -95,11 +95,11 @@ require('dotenv').config();
         'content-type': 'application/json',
         'authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify(postData),
+      data: JSON.stringify(postData),
     }
 
     axios(options).then((res) => {
-      console.log(res)
+      //todo: what's the expected response? need to implement in API.
     }).catch(err => {
       throw new Error(err)
     })
@@ -113,17 +113,16 @@ const requestApiToken = (callback) => {
     method: 'POST',
     url: process.env.AUTH0_API_URL,
     headers: { 'content-type': 'application/json'},
-    body: JSON.stringify({
+    data: JSON.stringify({
       client_id: process.env.AUTH0_CLIENT_ID,
       client_secret: process.env.AUTH0_CLIENT_SECRET,
       audience: process.env.AUTH0_AUDIENCE,
       grant_type: "client_credentials"
     })
   }
-  console.log(options)
   axios(options).then(res => {
-    if (res["access_token"]) {
-      callback(res["access_token"])
+    if (res && res.data && res.data.access_token) {
+      callback(res.data.access_token)
     } else {
       throw new Error('no access token granted')
     }
