@@ -1,5 +1,5 @@
 # lolibrary-scraper
-Web scraper that fetches filter data used for Lolibrary's search API. Read more about the development process [on my blog post](https://dev.to/mcreel/web-scraping-use-aria-attributes-to-crawl-accessible-components-3lof).
+Web scraper that fetches filter data used for [Lolibrary](https://lolibrary.org/search?page=1)'s search API. Read more about the development process [on my blog post](https://dev.to/mcreel/web-scraping-use-aria-attributes-to-crawl-accessible-components-3lof).
 
 Sister projects:
 - [`lolibrary-mobile`: React Native port of Lolibrary search.](https://github.com/mariecreel/lolibrary-mobile)
