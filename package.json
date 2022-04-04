@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/mariecreel/lolibrary-scraper#readme",
   "dependencies": {
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
     "puppeteer": "^13.5.1",
     "puppeteer-extra": "^3.2.3",
     "puppeteer-extra-plugin-stealth": "^2.9.0"

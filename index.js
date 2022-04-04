@@ -1,5 +1,7 @@
 const puppeteer = require("puppeteer-extra");
 const StealthPlugin = require("puppeteer-extra-plugin-stealth");
+const axios = require('axios');
+require('dotenv').config();
 
 (async () => {
   const url = "https://lolibrary.org/search";
@@ -75,5 +77,57 @@ const StealthPlugin = require("puppeteer-extra-plugin-stealth");
     await page.click(".card-header");
   }
   await browser.close();
-  // TODO: send filters to postgreSQL database...need an endpoint for this?
+  // clean data to send to api
+  // we don't need to store the listbox id in the db,
+  // so just send the key/value pairs of 
+  // filter type and value
+  let postData = {};
+  for (const key of Object.keys(filters)) {
+    postData[key] = filters[key].values;
+  }
+  // create function to post data to lolibrary API for import
+  // using a closure makes sense, given that this function will be passed as a cb to requestApiToken
+  const postFilterDataToApi = (token) => {
+    const options = {
+      method: 'POST',
+      url: process.env.IMPORT_URL,
+      headers: { 
+        'content-type': 'application/json',
+        'authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(postData),
+    }
+
+    axios(options).then((res) => {
+      console.log(res)
+    }).catch(err => {
+      throw new Error(err)
+    })
+  }
+  // request fresh API token and post data
+  requestApiToken(postFilterDataToApi)
 })();
+// get API token and pass to callback fxn
+const requestApiToken = (callback) => {
+  const options = {
+    method: 'POST',
+    url: process.env.AUTH0_API_URL,
+    headers: { 'content-type': 'application/json'},
+    body: JSON.stringify({
+      client_id: process.env.AUTH0_CLIENT_ID,
+      client_secret: process.env.AUTH0_CLIENT_SECRET,
+      audience: process.env.AUTH0_AUDIENCE,
+      grant_type: "client_credentials"
+    })
+  }
+  console.log(options)
+  axios(options).then(res => {
+    if (res["access_token"]) {
+      callback(res["access_token"])
+    } else {
+      throw new Error('no access token granted')
+    }
+  }).catch(err => {
+    throw new Error(err)
+  })
+};
